@@ -14,7 +14,11 @@ fn reverse_dns(recorded_ips: Vec<&str>) {
     for items in recorded_ips {
         match items.parse::<std::net::IpAddr>() {
             Ok(ip) => match lookup_addr(&ip) {
-                Ok(host) => println!("{}", host),
+                Ok(host) => {
+                    let shrunk_host = shrink_domain(host.as_str());
+                    println!("{}", shrunk_host);
+
+                },
                 Err(_) => print!(""),
             },
             Err(_) => print!(""),
