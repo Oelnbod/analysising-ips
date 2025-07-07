@@ -1,3 +1,4 @@
+use std::collections::HashSet;
 use dns_lookup::lookup_addr;
 use std::fs;
 
@@ -6,7 +7,8 @@ fn main() {
     let contents = fs::read_to_string("collected.txt").expect("Error reading file");
     let recorded_ips: Vec<&str> = contents.lines().collect();
     let domains_found = reverse_dns(recorded_ips);
-    println!("{:?}", domains_found);
+    let deduped: Vec<String> = remove_duplicates(domains_found);
+    println!("{:?}", deduped);
 }
 fn reverse_dns(recorded_ips: Vec<&str>) -> Vec<String> {
     let mut domains: Vec<String> = Vec::new();
@@ -40,4 +42,14 @@ fn shrink_domain(domain: &str) -> String{
         let output = (&parts[parts.len() - 2..]).join(".");
         output
     }
+}
+fn remove_duplicates(with_duplicates: Vec<String>) -> Vec<String> {
+    let mut unique_elements = HashSet::new();
+    let mut result: Vec<String> = Vec::new();
+    for item in with_duplicates {
+        if unique_elements.insert(item.clone()) {
+            result.push(item);
+        }
+    }
+    result
 }
