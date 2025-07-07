@@ -1,8 +1,7 @@
 mod ip_manipulation;
 
-
-use std::fs;
 use ip_manipulation::*;
+use std::fs;
 
 fn main() {
     let contents = fs::read_to_string("collected.txt").expect("Error reading file");

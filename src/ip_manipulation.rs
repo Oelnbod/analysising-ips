@@ -1,5 +1,5 @@
-use std::collections::HashSet;
 use dns_lookup::lookup_addr;
+use std::collections::HashSet;
 pub fn reverse_dns(recorded_ips: Vec<&str>) -> Vec<String> {
     let mut domains: Vec<String> = Vec::new();
     for items in recorded_ips {
@@ -8,18 +8,16 @@ pub fn reverse_dns(recorded_ips: Vec<&str>) -> Vec<String> {
                 Ok(host) => {
                     let shrunk_host = shrink_domain(host.as_str());
                     domains.push(shrunk_host.clone());
-
-
-                },
+                }
                 Err(_) => (),
             },
             Err(_) => (),
         }
-    };
+    }
     domains
 }
 
-pub fn shrink_domain(domain: &str) -> String{
+pub fn shrink_domain(domain: &str) -> String {
     let parts: Vec<&str> = domain.split(".").collect();
 
     if parts.len() >= 3 {
